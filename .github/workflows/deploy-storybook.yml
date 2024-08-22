@@ -59,12 +59,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Determine Merged Branch Name
-        id: merged-branch
+      - name: Get Merged Branch Name
+        id: get-branch
         run: |
-          git fetch origin +refs/heads/*:refs/remotes/origin/*
-          MERGED_BRANCH=$(git log -1 --merges --pretty=format:"%P" | awk '{print $2}')
-          MERGED_BRANCH_NAME=$(git branch -r --contains $MERGED_BRANCH | grep -oE '[^/]+$')
+          MERGED_BRANCH_NAME=$(jq -r '.pull_request.head.ref' < "${GITHUB_EVENT_PATH}")
           echo "MERGED_BRANCH_NAME=$MERGED_BRANCH_NAME" >> $GITHUB_ENV
 
       - name: Unlink Storybook
