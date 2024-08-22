@@ -16,7 +16,7 @@ const meta = {
     placeholder: { control: "text" },
   },
   args: {
-    placeholder: "Type here...",
+    placeholder: "Type here",
   },
 } satisfies Meta<typeof TextInput>;
 
