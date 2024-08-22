@@ -34,3 +34,19 @@ jobs:
           destination_dir: ${{ github.ref_name != 'main' && github.ref_name || '.' }} # Deploy to root on main, to folder for other branches
           user_name: olgagr # Customize with your GitHub username
           user_email: olga.grabek@gmail.com
+
+      - name: Link Storybook
+        run: |
+          URL="https://olgagr.github.io/storybook_experiment"
+          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            URL="$URL/${{ github.ref_name }}"
+          fi
+          curl -X "POST" "https://c463-212-59-69-218.ngrok-free.app/open_api/v1/styleguides/2/storybooks_settings" \
+          -H 'X-API-CLIENT: ${{secrets.X_API_CLIENT}}' \
+          -H 'X-API-KEY: ${{secrets.X_API_KEY}}' \
+          -H 'Content-Type: application/json; charset=utf-8' \
+          -d "{
+            \"title\": \"branch\",
+            \"main_storybook_url\": \"https://olgagr.github.io/storybook_experiment\",
+            \"storybook_url\": \"$URL\"
+          }"
