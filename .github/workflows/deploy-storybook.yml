@@ -55,15 +55,25 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     needs: build-and-deploy
-
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Determine Merged Branch Name
+        id: merged-branch
+        run: |
+          git fetch origin +refs/heads/*:refs/remotes/origin/*
+          MERGED_BRANCH=$(git log -1 --merges --pretty=format:"%P" | awk '{print $2}')
+          MERGED_BRANCH_NAME=$(git branch -r --contains $MERGED_BRANCH | grep -oE '[^/]+$')
+          echo "MERGED_BRANCH_NAME=$MERGED_BRANCH_NAME" >> $GITHUB_ENV
+
       - name: Unlink Storybook
         run: |
-          URL="https://olgagr.github.io/storybook_experiment/${{ github.event.before }}"
+          URL="https://olgagr.github.io/storybook_experiment/${{ env.MERGED_BRANCH_NAME }}"
           curl -X "PATCH" "https://c463-212-59-69-218.ngrok-free.app/open_api/v1/styleguides/2/storybooks_settings/unlink_storybook" \
-          -H 'X-API-CLIENT: ${{secrets.X_API_CLIENT}}' \
-          -H 'X-API-KEY: ${{secrets.X_API_KEY}}' \
-          -H 'Content-Type: application/json; charset=utf-8' \
+          -H "X-API-CLIENT: ${{ secrets.X_API_CLIENT }}" \
+          -H "X-API-KEY: ${{ secrets.X_API_KEY }}" \
+          -H "Content-Type: application/json; charset=utf-8" \
           -d "{
             \"storybook_url\": \"$URL\"
           }"
