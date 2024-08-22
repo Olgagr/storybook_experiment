@@ -67,7 +67,7 @@ jobs:
 
       - name: Unlink Storybook
         run: |
-          URL="https://olgagr.github.io/storybook_experiment/${{ env.MERGED_BRANCH_NAME }}"
+          URL="https://olgagr.github.io/storybook_experiment/new_component"
           curl -X "PATCH" "https://c463-212-59-69-218.ngrok-free.app/open_api/v1/styleguides/2/storybooks_settings/unlink_storybook" \
           -H "X-API-CLIENT: ${{ secrets.X_API_CLIENT }}" \
           -H "X-API-KEY: ${{ secrets.X_API_KEY }}" \
