@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - "**" # This will trigger on any branch push
 
 jobs:
   build-and-deploy:
@@ -25,7 +26,22 @@ jobs:
         run: npm run build-storybook
 
       - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./storybook-static
+          publish_branch: gh-pages
+          user_name: olgagr # Customize with your GitHub username
+          user_email: olga.grabek@gmail.com
+
+      - name: Deploy branch to GitHub Pages
+        if: github.ref != 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./storybook-static
+          publish_branch: gh-pages
+          destination_dir: ${{ github.ref_name }} # Deploy to a folder named after the branch
+          user_name: olgagr # Customize with your GitHub username
+          user_email: olga.grabek@gmail.com
