@@ -46,7 +46,24 @@ jobs:
           -H 'X-API-KEY: ${{secrets.X_API_KEY}}' \
           -H 'Content-Type: application/json; charset=utf-8' \
           -d "{
-            \"title\": \"branch\",
+            \"title\": \"storybook from branch\",
             \"main_storybook_url\": \"https://olgagr.github.io/storybook_experiment\",
+            \"storybook_url\": \"$URL\"
+          }"
+
+  notify-on-merge:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: build-and-deploy
+
+    steps:
+      - name: Unlink Storybook
+        run: |
+          URL="https://olgagr.github.io/storybook_experiment/${{ github.event.before }}"
+          curl -X "PATCH" "https://c463-212-59-69-218.ngrok-free.app/open_api/v1/styleguides/2/storybooks_settings/unlink_storybook" \
+          -H 'X-API-CLIENT: ${{secrets.X_API_CLIENT}}' \
+          -H 'X-API-KEY: ${{secrets.X_API_KEY}}' \
+          -H 'Content-Type: application/json; charset=utf-8' \
+          -d "{
             \"storybook_url\": \"$URL\"
           }"
