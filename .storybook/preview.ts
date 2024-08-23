@@ -13,8 +13,8 @@ const preview: Preview = {
   decorators: [
     withThemeByDataAttribute<ReactRenderer>({
       themes: {
-        light: "Light",
-        dark: "Dark",
+        light: "light",
+        dark: "dark",
       },
       defaultTheme: "light",
       attributeName: "data-bs-theme",

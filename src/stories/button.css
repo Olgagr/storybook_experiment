@@ -11,7 +11,7 @@
   color: white;
   background-color: #1ea7fd;
 }
-[data-bs-theme="Dark"] .storybook-button--primary {
+[data-bs-theme="dark"] .storybook-button--primary {
   color: #1ea7fd;
   background-color: white;
   border: 1px solid #1ea7fd;
