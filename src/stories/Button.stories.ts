@@ -29,7 +29,6 @@ export const Primary: Story = {
     primary: true,
     label: "Button",
   },
-  globals: { theme: "dark" },
 };
 
 export const Secondary: Story = {
