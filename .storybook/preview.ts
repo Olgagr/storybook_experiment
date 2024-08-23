@@ -16,19 +16,11 @@ const preview: Preview = {
   decorators: [
     withThemeByClassName({
       themes: {
-        light: "light-theme",
-        dark: "dark-theme",
+        light: "light",
+        dark: "dark",
       },
       defaultTheme: "light",
     }),
-    // withThemeByDataAttribute<ReactRenderer>({
-    //   themes: {
-    //     light: "light",
-    //     dark: "dark",
-    //   },
-    //   defaultTheme: "light",
-    //   attributeName: "data-bs-theme",
-    // }),
   ],
 };
 
