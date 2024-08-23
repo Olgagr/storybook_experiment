@@ -1,4 +1,5 @@
-import type { Preview } from "@storybook/react";
+import type { Preview, ReactRenderer } from "@storybook/react";
+import { withThemeByDataAttribute } from "@storybook/addon-themes";
 
 const preview: Preview = {
   parameters: {
@@ -9,6 +10,16 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    withThemeByDataAttribute<ReactRenderer>({
+      themes: {
+        light: "light",
+        dark: "dark",
+      },
+      defaultTheme: "light",
+      attributeName: "data-bs-theme",
+    }),
+  ],
 };
 
 export default preview;
